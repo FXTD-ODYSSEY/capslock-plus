@@ -33,10 +33,20 @@ function fixFloatCalcRudely(num){
     }
     return num;
 }
+function detectAndFixTrivialPow( expressionString ) {
+
+    var pattern = /(\w+)\*\*(\w+)/i;
+
+    var fixed = expressionString.replace( pattern, 'Math.pow($1,$2)' );
+    return fixed;
+}
 </script>
 )
 obj.write(buildInScript)
 buildInScript:=""
+
+; 读取 babel standalone 让 IE 支持 es2015 语法
+obj.write("<script src='" A_WorkingDir "\loadScript\babel.min.js'></script>")
 
 ;custom script
 ifexist, loadScript
@@ -55,12 +65,35 @@ ifexist, loadScript
 return
 
 
-eval(exp)
+eval(exp,fix:=true)
 {
     global obj
     exp:=escapeString(exp)
     
-    obj.write("<body><script>(function(){var t=document.body;t.innerText='';t.innerText=eval('" . exp . "');})()</script></body>")
+
+    ; 四则运算正则匹配
+    numCheck = true
+    strRegEx:="i)\(*-?\d*\.?\d+\)*(\s?([-+*/]|\*\*)\s?\(*-?\d*\.?\d+\)*)*\s*(\$(b|h|x|)(\d*[eEgG]?))?\s?=?\s?$"
+    foundPos:=RegExMatch(exp, strRegEx, calStr)
+    if(foundPos){
+        numCheck := false
+        inputStr:=SubStr(exp,1,foundPos-1)
+        ; 说明四则运算正则不匹配，判断是否需要包裹字符串
+        if (inputStr != ""){
+            numCheck := true
+        }
+    }
+
+    if (numCheck) {
+        RegExMatch(exp, "[a-zA-Z0-9_\{\}\!\+\^\#]*$", match)
+        if (exp = match){
+            exp := "\""" . exp . "\"""
+        }
+    }
+    ; MsgBox % "exp " exp
+
+    fixfun := fix ? "fixFloatCalcRudely" : ""
+    obj.write("<body><script>(function(){var t=document.body;t.innerText='';t.innerText=" . fixfun . "(eval(Babel.transform(detectAndFixTrivialPow('" . exp . "'), { presets: ['es2015'] }).code));})()</script></body>")
     return inStr(cabbage:=obj.body.innerText, "body") ? "ERROR" : cabbage
 }
 
@@ -70,6 +103,7 @@ escapeString(string){
     
     ;replace all newline character to '\n'
     string:=regExReplace(string, "\R", "\n")
+    
     return string
 }
 

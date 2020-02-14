@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Debug</title>
+    <script src="https://cdn.bootcss.com/babel-polyfill/7.6.0/polyfill.js"></script>
+    <script>
+        alert($export)
+        (function(){
+            let id = 123;
+            alert(`name: ${id}`);
+            return id
+        })()
+    </script>
     <script src="scriptDemo.js"></script>
 </head>
 <body>
