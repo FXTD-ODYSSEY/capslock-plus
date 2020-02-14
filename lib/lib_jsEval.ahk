@@ -35,7 +35,7 @@ function fixFloatCalcRudely(num){
 }
 function detectAndFixTrivialPow( expressionString ) {
 
-    var pattern = /(\w+)\*\*(\w+)/i;
+    var pattern = /(\w+)\s*\*\*\s*(\w+)/i;
 
     var fixed = expressionString.replace( pattern, 'Math.pow($1,$2)' );
     return fixed;
