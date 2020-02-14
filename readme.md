@@ -87,8 +87,15 @@
 "nmsl{Enter}".repeat(10)    
 ```    
     
-![alt](img/03.gif)    
-    
+![alt](img/03.gif)  
+
+---
+
+> &emsp;&emsp;如果需要多个按键同时点击支持，还有配合 alt shift ctrl 这些 modifier 键的话。
+> &emsp;&emsp;可以按照 AHK 的标记填入到 { } 里面。
+
+> &emsp;&emsp;比如 alt + A 触发微信截图就可以 `{!a}` 执行这个来实现
+
 ### capslock + Tab 执行修改    
     
 > &emsp;&emsp;作者原版的 capslock + Tab 只执行光标往左的字符，非常不方便。    
