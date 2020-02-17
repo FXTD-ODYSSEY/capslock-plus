@@ -19,7 +19,7 @@ global CLSets:={} ;保存Capslock+settings.ini的各种设置
 CLSets.length:={} ;保存settings.ini中每个字段的关键词数量
 global setsChanges:={} ;保存哪些设置经过改变
 ;set.ini 里面所有字段名，有更新必须修改这里，否则会无法获取
-global iniSections:=["Global","QSearch","QRun","QWeb","TabHotString","QStyle","TTranslate","Keys"]
+global iniSections:=["Global","QSearch","QRun","QWeb","TabHotString","QStyle","TTranslate","Keys","HotString"]
 FileGetTime, settingsModifyTime, CapsLock+settings.ini
 
 ;init CapsLock+settingsDemo.ini and CapsLock+settings.ini
@@ -137,6 +137,16 @@ getShortSetKey(str)
     return RegExReplace(str, "\s*<.*>$")
 }
 
+HotStringRepalace(setValue)
+{
+    ClipboardOld:=ClipboardAll
+    Clipboard := setValue
+    SendInput, ^{v}
+    Sleep, 200
+    Clipboard:=ClipboardOld
+    return
+}
+
 settingsSectionInit(sectionValue)
 {
     isChange:=0 ;这个字段是否有改动过
@@ -172,6 +182,11 @@ settingsSectionInit(sectionValue)
                     _clsetsSec[keyValue]:=setValue
                 ;  else
                 ;      _clsetsSec[keyValue]:="keyFunc_" . setValue
+            }
+            else if(sectionValue="HotString"){
+                ; 热字符串自动替换
+                keyValue := StrReplace(keyValue,"\;",";")
+                Hotstring(":?X*:" keyValue,Func("HotStringRepalace").bind(setValue))
             }
             else
             {
@@ -370,6 +385,3 @@ CLhotString()
     
     return matchKey
 }
-
-
-
