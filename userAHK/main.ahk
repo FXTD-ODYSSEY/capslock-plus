@@ -26,26 +26,37 @@ keyFunc_winPin2()
         p := RegExMatch(Title, "^\^ ", match)
         origin := SubStr(Title, 3)
         if (p = 1)
-          WinSetTitle,%origin%
+            WinSetTitle, %origin%
     } else {
-        WinSetTitle,^ %Title%
+        WinSetTitle, ^ %Title%
         WinSet, AlwaysOnTop
     }
     ;  WinSet, Transparent, 210
     return
 }
 
-keyfunc_listary()
+keyfunc_listary(shortKey="")
 {
     ClipboardOld:=ClipboardAll
     
     ; 获取选中的文字
     selText:=getSelText()
     
-    ; 发送 win+F 按键（Listary默认的呼出快捷键），呼出Listary
-    SendInput, {RControl}
-    Sleep, 100
-    SendInput, {RControl}
+    ; 发送 ctrl ctrl 按键（Listary默认的呼出快捷键），呼出Listary
+    if (shortKey = "") {
+        
+        SendInput, {RControl}
+        Sleep, 100
+        SendInput, {RControl}
+    } else {
+        p := RegExMatch(shortKey, "[a-zA-Z0-9 ]*$", match)
+        modifier := SubStr(shortKey, 1 , p-1)
+        ; MsgBox,%modifier%{%match%}
+        ; 输出按键
+        SendInput , %modifier%{%match%}
+    }
+    
+    
     
     ; 等待 Listary 输入框打开
     winwait, ahk_exe Listary.exe, , 0.5

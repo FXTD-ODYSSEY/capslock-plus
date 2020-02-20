@@ -95,17 +95,16 @@ string2AHK(result){
         lp := p + StrLen(m)
         Clipboard := ""
         
-        ; 输出 { } 按键
+        ; 去掉 { } 两个大括号
         key := SubStr(m, 2, -1)
-        p := RegExMatch(key, "[a-zA-Z0-9]*$", match)
+        p := RegExMatch(key, "[a-zA-Z0-9 ]*$", match)
         modifier := SubStr(key, 1 , p-1)
-        ; MsgBox % key
+        ; 输出 { } 按键
         SendInput , %modifier%{%match%}
     }
 
-    if (result = "undefined"){
+    if result = "undefined"
         SendInput, {Backspace}
-    }
     else if Clipboard != "" 
         SendInput, ^{v}
 }

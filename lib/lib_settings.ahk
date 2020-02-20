@@ -139,11 +139,12 @@ getShortSetKey(str)
 
 HotStringRepalace(setValue)
 {
-    ClipboardOld:=ClipboardAll
-    Clipboard := setValue
-    SendInput, ^{v}
-    Sleep, 200
-    Clipboard:=ClipboardOld
+    ; ClipboardOld:=ClipboardAll
+    ; Clipboard := setValue
+    ; SendInput, ^{v}
+    ; Sleep, 200
+    ; Clipboard:=ClipboardOld
+    Send %setValue%
     return
 }
 
