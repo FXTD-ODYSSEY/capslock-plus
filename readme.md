@@ -152,3 +152,9 @@ __=——
 > &emsp;&emsp;这样输入两个英文标点就可以自动转为中文表标点。     
 > &emsp;&emsp;虽然分号很少用,在 autohotkey 还是注释符号，我还是给做了个转义 `\;`。
 > &emsp;&emsp;另外输出的时候还是利用了老办法，复制粘贴的方式,避免编辑器提示等等的干扰。     
+
+
+### 更新 2020-3-25
+
+> &emsp;&emsp;修复 markdown 输入 ,, 转换为 ， 总是出错的 Bug (Hotstring 加入 DI)
+> &emsp;&emsp;添加 ctrl + capslock 全局关闭功能
