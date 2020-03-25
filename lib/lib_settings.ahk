@@ -187,7 +187,8 @@ settingsSectionInit(sectionValue)
             else if(sectionValue="HotString"){
                 ; 热字符串自动替换
                 keyValue := StrReplace(keyValue,"\;",";")
-                Hotstring(":?X*:" keyValue,Func("HotStringRepalace").bind(setValue))
+                ; 添加 SI 确保输入不会出错
+                Hotstring(":SI?X*:" keyValue,Func("HotStringRepalace").bind(setValue))
             }
             else
             {
