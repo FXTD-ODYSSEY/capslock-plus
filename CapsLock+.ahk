@@ -1,19 +1,8 @@
-﻿#SingleInstance force
-
-; If the script is not elevated, relaunch as administrator and kill current instance:
-full_command_line := DllCall("GetCommandLine", "str")
-if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)"))
+﻿if not A_IsAdmin ;running by administrator
 {
-    try ; leads to having the script re-launching itself as administrator
-    {
-        if A_IsCompiled
-            Run *RunAs "%A_ScriptFullPath%" /restart
-        else
-            Run *RunAs "%A_AhkPath%" /restart "%A_ScriptFullPath%"
-    }
-    ExitApp
+   Run *RunAs "%A_ScriptFullPath%" 
+   ExitApp
 }
-
 
 IfExist, capslock+icon.ico
 {
