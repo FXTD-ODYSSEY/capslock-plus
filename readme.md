@@ -156,5 +156,17 @@ __=——
 
 ### 更新 2020-3-25
 
-> &emsp;&emsp;修复 markdown 输入 ,, 转换为 ， 总是出错的 Bug (Hotstring 加入 DI)
+> &emsp;&emsp;修复 markdown 输入 ,, 转换为 ， 总是出错的 Bug (Hotstring 加入 SI)
 > &emsp;&emsp;添加 ctrl + capslock 全局关闭功能
+
+### 更新 2021-1-12
+
+> &emsp;&emsp;发现 全局关闭功能 默认是 ctrl+alt+capslock 已经有了
+> &emsp;&emsp;添加 [TabHotString] 通过 `^代码^` 标记执行 js 功能
+
+```ini
+[TabHotString]
+sj=^date()^
+
+; sj 按键盘 `capslock+Tab` -> ‎2021‎年‎1‎月‎12‎日
+```

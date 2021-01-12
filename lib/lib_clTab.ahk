@@ -111,6 +111,7 @@ string2AHK(result){
 
 tabAction()
 {
+    
     ClipboardOld:=ClipboardAll
     selText:=getSelText()
     
@@ -135,19 +136,29 @@ tabAction()
         ClipWait, 0.1
         if(!ErrorLevel)
         {
-            if(!CLhotString())
+            match := CLhotString()
+            
+            if(!match)
             {
-                ;  text2Script:=strSelected2Script(Clipboard)
+                text2Script:=strSelected2Script(Clipboard)
                 ;  if(text2Script != Clipboard)
                 ;      Clipboard := clCalculate(text2Script,calResult)
                 ;  else
-                Clipboard := clCalculate(Clipboard,calResult,1)
-            }
+                Clipboard := clCalculate(text2Script,calResult,1)
+            }else{
+                
+                _first := SubStr(Clipboard,1,1)
+                _last := SubStr(Clipboard,StrLen(Clipboard),1)
+                ; TODO 识别 ^^ js 标识
+                if(_first="^" and _last="^"){
+                    Clipboard := eval(SubStr(Clipboard,2,StrLen(Clipboard)-2))
+                    ; msgbox, % Clipboard   
+                }
+            } 
         }
     }
 
     string2AHK(Clipboard)
-
     Sleep, 200
     Clipboard:=ClipboardOld
     return calResult
