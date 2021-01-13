@@ -1,4 +1,5 @@
-﻿/*
+﻿#include lib_jsEval.ahk
+/*
 提出settings.ini的设置信息
 
 ini demo:
@@ -371,7 +372,15 @@ CLhotString()
     {
         if(CLSets.TabHotString[matchKey])
         {
-            temp:=RegExReplace(Clipboard, "\Q" . matchKey . "\E$", CLSets.TabHotString[matchKey])
+            match := CLSets.TabHotString[matchKey]
+
+            _first := SubStr(match,1,1)
+            _last := SubStr(match,StrLen(match),1)
+            ; TODO 识别 ^^ js 标识
+            if(_first="^" and _last="^"){
+                match := eval(SubStr(match,2,StrLen(match)-2))
+            }
+            temp:=RegExReplace(Clipboard, "\Q" . matchKey . "\E$", match)
             StringReplace, temp, temp, \n, `n, All ;替换换行符
             StringReplace, temp, temp, \`n, \n, All ;有转义符的换回来
             Clipboard:=temp
