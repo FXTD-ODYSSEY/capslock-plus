@@ -128,7 +128,7 @@ tabAction()
     else
     {
         Clipboard:=""
-        SendInput, {End}
+        ; SendInput, {End}
         SendInput, +{Home}
         sleep, 10 ;make sure text is selecting
         SendInput, ^{c}
